@@ -6,11 +6,24 @@
             "type": "string"
         }
     },
+    "variables": {
+        "fibonacci_30": "
+function fibonacci_recursive(n) {
+  if (n === 0 || n === 1) {
+    return n;
+  }
+
+  return fibonacci_recursive(n - 2) + fibonacci_recursive(n - 1);
+}
+
+fibonacci_recursive(30)
+        "
+    },
     "resources": [],
     "outputs": {
         "output": {
             "type": "int",
-            "value": "[listExecuteJs(parameters('customRpId'), '2018-09-01-preview', '1 + 1').result]"
+            "value": "[listExecuteJs(parameters('customRpId'), '2018-09-01-preview', variables('fibonacci_30')).result]"
         }
     }
 }
