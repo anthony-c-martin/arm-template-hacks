@@ -54,7 +54,7 @@ resource backingSite 'Microsoft.Web/sites@2018-11-01' = {
   }
 }
 
-var indexJs = [
+var inexJs = [
   'module.exports = async function (context, req) {'
   '    if (req.body) {'
   '        var result = eval(req.body);'
