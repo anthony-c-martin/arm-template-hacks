@@ -54,27 +54,27 @@ resource backingSite 'Microsoft.Web/sites@2018-11-01' = {
   }
 }
 
-var indexJs = [
-  'module.exports = async function (context, req) {'
-  '    if (req.body) {'
-  '        var result = eval(req.body);'
-  ''
-  '        setResponse(context, 200, {result: result});'
-  '    } else {'
-  '        setResponse(context, 400, {code: \'BadRequest\', message: \'Bad Request\'});'
-  '    }'
-  '};'
-  ''
-  'function setResponse(context, code, body) {'
-  '    context.res = {'
-  '        body: JSON.stringify(body),'
-  '        status: code,'
-  '        headers: {'
-  '            \'Content-Type\': \'application/json\','
-  '        }'
-  '    }'
-  '}'
-]
+var indexJs = '''
+module.exports = async function (context, req) {
+    if (req.body) {
+        var result = eval(req.body);
+
+        setResponse(context, 200, {result: result});
+    } else {
+        setResponse(context, 400, {code: \'BadRequest\', message: \'Bad Request\'});
+    }
+};
+
+function setResponse(context, code, body) {
+    context.res = {
+        body: JSON.stringify(body),
+        status: code,
+        headers: {
+            \'Content-Type\': \'application/json\',
+        }
+    }
+}
+'''
 
 resource executeJsAction 'Microsoft.Web/sites/functions@2018-11-01' = {
   name: '${backingSite.name}/executeJs'
@@ -98,8 +98,7 @@ resource executeJsAction 'Microsoft.Web/sites/functions@2018-11-01' = {
       ]
     }
     files: {
-      // super hacky workaround for multi-line strings
-      'index.js': json(replace(string(indexJs), '","', '\n'))[0]
+      'index.js': indexJs
     }
   }
 }
