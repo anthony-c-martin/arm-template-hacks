@@ -61,7 +61,7 @@ module.exports = async function (context, req) {
 
         setResponse(context, 200, {result: result});
     } else {
-        setResponse(context, 400, {code: \'BadRequest\', message: \'Bad Request\'});
+        setResponse(context, 400, {code: 'BadRequest', message: 'Bad Request'});
     }
 };
 
@@ -70,7 +70,7 @@ function setResponse(context, code, body) {
         body: JSON.stringify(body),
         status: code,
         headers: {
-            \'Content-Type\': \'application/json\',
+            'Content-Type': 'application/json',
         }
     }
 }
