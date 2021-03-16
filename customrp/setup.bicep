@@ -54,22 +54,22 @@ resource backingSite 'Microsoft.Web/sites@2018-11-01' = {
   }
 }
 
-var indexJs = [
-  'module.exports = async function (context, req) {'
-  '    console.log(context);'
-  '    setResponse(context, 200, req.body);'
-  '};'
-  ''
-  'function setResponse(context, code, body) {'
-  '    context.res = {'
-  '        body: body,'
-  '        status: code,'
-  '        headers: {'
-  '            \'Content-Type\': \'application/json\','
-  '        }'
-  '    }'
-  '}'
-]
+var indexJs = '''
+module.exports = async function (context, req) {
+    console.log(context);
+    setResponse(context, 200, req.body);
+};
+
+function setResponse(context, code, body) {
+    context.res = {
+        body: body,
+        status: code,
+        headers: {
+            \'Content-Type\': \'application/json\',
+        }
+    }
+}
+'''
 
 var testResourceName = 'testResource'
 
@@ -97,8 +97,7 @@ resource testResourceFunc 'Microsoft.Web/sites/functions@2018-11-01' = {
       ]
     }
     files: {
-      // super hacky workaround for multi-line strings
-      'index.js': json(replace(string(indexJs), '","', '\n'))[0]
+      'index.js': indexJs
     }
   }
 }
