@@ -65,7 +65,7 @@ function setResponse(context, code, body) {
         body: body,
         status: code,
         headers: {
-            \'Content-Type\': \'application/json\',
+            'Content-Type': 'application/json',
         }
     }
 }
